@@ -1,21 +1,24 @@
 package com.bot.entities;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
+import java.util.Date;
 
 public class BirthdayUser {
-    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-dd-MM");
     private int id;
     private String name;
     private Date birthday;
+    private String birthdayString;
     private String discord_id;
-
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     public BirthdayUser(){}
 
-    public BirthdayUser(int id, String name, Date birthday, String discord_id){
+    public BirthdayUser(int id, String name, String birthdayString, String discord_id) throws ParseException {
         this.id = id;
         this.name = name;
-        this.birthday = birthday;
+        this.birthdayString = birthdayString;
+        this.birthday = dateFormat.parse(birthdayString);
+        System.out.println(dateFormat.parse(birthdayString));
         this.discord_id = discord_id;
     }
 
@@ -53,6 +56,12 @@ public class BirthdayUser {
     }
 
 
+    public String getBirthdayString() {
+        return birthdayString;
+    }
 
-
+    public void setBirthdayString(String birthdayString) throws ParseException {
+        this.birthdayString = birthdayString;
+        this.birthday =dateFormat.parse(birthdayString);
+    }
 }

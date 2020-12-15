@@ -21,5 +21,4 @@ public class Listener extends ListenerAdapter {
                     event.getMessage().getContentDisplay());
         }
     }
-
 }
