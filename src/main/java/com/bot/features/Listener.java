@@ -3,7 +3,6 @@ package com.bot.features;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageHistory;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -12,10 +11,7 @@ import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import static com.bot.features.TopPostsOfTheWeek.returnMostUpvoted;
-import static com.bot.features.TopPostsOfTheWeek.returnTopMessage;
-import static net.dv8tion.jda.api.entities.MessageHistory.getHistoryAfter;
-import static net.dv8tion.jda.api.entities.MessageHistory.getHistoryBefore;
+import static com.bot.features.TopPostsOfTheWeek.*;
 
 public class Listener extends ListenerAdapter {
 
@@ -28,8 +24,9 @@ public class Listener extends ListenerAdapter {
             case "!help": {
                 channel.sendMessage("For feature requests, contact <@145717043289784320>! Current features include: \n" +
                         "- Birthday Announcer\n" +
-                        "- Top posts of the week(!top)\n" +
-                        "- Most controversial post of the week(!controversial)").queue();
+                        "- Top posts of the week (!top)\n" +
+                        "- Most controversial post of the week (!controversial)\n" +
+                        "- Most downvoted post of the week (!worst)").queue();
                 break;
             }
 
@@ -44,7 +41,7 @@ public class Listener extends ListenerAdapter {
                     e.printStackTrace();
                 }
                 Message topMessage = returnMostUpvoted(messageList);
-                channel.sendMessage("The top message of the past 100 messages is! " + topMessage.getJumpUrl()).queue();
+                channel.sendMessage("The top message of the past 100 messages is: " + topMessage.getJumpUrl()).queue();
                 break;
             }
 
@@ -57,8 +54,22 @@ public class Listener extends ListenerAdapter {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Message topMessage = returnTopMessage(messageList);
-                channel.sendMessage("The most reacted message of the past 100 messages is! " + topMessage.getJumpUrl()).queue();
+                Message topMessage = returnMostReacted(messageList);
+                channel.sendMessage("The most reacted message of the past 100 messages is: " + topMessage.getJumpUrl()).queue();
+                break;
+            }
+
+            case "!worst": {
+                CountDownLatch latch = new CountDownLatch(1);
+                List<Message> messageList = new ArrayList<Message>();
+                try {
+                    channel.getHistory().retrievePast(100).queue(messages -> messageList.addAll(messages));
+                    latch.await(1, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Message topMessage = returnMostDownvoted(messageList);
+                channel.sendMessage("The most downvoted message of the past 100 messages is: " + topMessage.getJumpUrl()).queue();
                 break;
             }
         }
