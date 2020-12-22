@@ -30,9 +30,9 @@ public class TopPostsOfTheWeek {
     static public int numberOfUpvotes(List<MessageReaction> reactions){
         int totalReactions = 0;
         for(MessageReaction reaction : reactions){
-            if(reaction.getReactionEmote().getEmote().getName().equals("UpVote")){
+            if(reaction.getReactionEmote().isEmote() && reaction.getReactionEmote().getEmote().getName().equals("UpVote")){
                 totalReactions += reaction.getCount();
-            }else if(reaction.getReactionEmote().getEmote().getName().equals("DownVote")){
+            }else if(reaction.getReactionEmote().isEmote() && reaction.getReactionEmote().getEmote().getName().equals("DownVote")){
                 totalReactions = totalReactions - reaction.getCount();
             }
         }
@@ -56,9 +56,9 @@ public class TopPostsOfTheWeek {
     static public int numberOfDownvotes(List<MessageReaction> reactions){
         int totalReactions = 0;
         for(MessageReaction reaction : reactions){
-            if(reaction.getReactionEmote().getEmote().getName().equals("DownVote")){
+            if(reaction.getReactionEmote().isEmote() && reaction.getReactionEmote().getEmote().getName().equals("DownVote")){
                 totalReactions += reaction.getCount();
-            }else if(reaction.getReactionEmote().getEmote().getName().equals("UpVote")){
+            }else if(reaction.getReactionEmote().isEmote() && reaction.getReactionEmote().getEmote().getName().equals("UpVote")){
                 totalReactions = totalReactions - reaction.getCount();
             }
         }
