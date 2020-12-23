@@ -13,6 +13,10 @@ import com.bot.features.Listener;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import javax.security.auth.login.LoginException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 
 public class driver extends ListenerAdapter {
@@ -22,10 +26,19 @@ public class driver extends ListenerAdapter {
     public static void main(String[] args) throws LoginException, ParseException {
         System.out.println("hello world");
 
-        jda = JDABuilder.createDefault("Mjg0NjIwNDc4OTczMzQ1ODAy.WK__eg.ibdUuq1f2AESEslkf75kx6x_A3I")
-                .setActivity(Activity.watching("my elo drop"))
-                .addEventListeners(new Listener())
-                .build();
+        String token = "";
+
+        try {
+            Path path = Paths.get("./src/main/resources/keystore");
+            token = new String(Files.readAllBytes(path));
+            jda = JDABuilder.createDefault(token)
+                    .setActivity(Activity.watching("my elo drop"))
+                    .addEventListeners(new Listener())
+                    .build();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         Birthdays birthdays = new Birthdays(jda);
         BirthdayUser user = birthdays.checkBirthdays();
