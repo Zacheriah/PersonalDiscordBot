@@ -2,6 +2,10 @@ package com.bot.driver;
 /*
 Feature list:
 - Top scoring posts of the week
+- lowest scoring posts of the week
+- most controversial posts of the week
+- all of the above of the month
+- Birthday announcer
  */
 import com.bot.entities.BirthdayUser;
 import com.bot.features.Birthdays;
