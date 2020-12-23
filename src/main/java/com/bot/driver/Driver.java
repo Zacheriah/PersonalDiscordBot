@@ -25,7 +25,6 @@ import java.text.ParseException;
 public class Driver extends ListenerAdapter {
     static JDA jda;
     public static void main(String[] args) throws LoginException, ParseException {
-        System.out.println("hello world");
         String token = "";
 
         try {
