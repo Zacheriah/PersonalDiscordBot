@@ -8,12 +8,14 @@ Feature list:
 - Birthday announcer
  */
 import com.bot.entities.BirthdayUser;
+import com.bot.features.BirthdayTask;
 import com.bot.features.Birthdays;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import com.bot.features.Listener;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 
 import javax.security.auth.login.LoginException;
 import java.io.IOException;
@@ -21,6 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
+import java.util.EnumSet;
+import java.util.Timer;
 
 public class Driver extends ListenerAdapter {
     static JDA jda;
@@ -28,9 +32,9 @@ public class Driver extends ListenerAdapter {
         String token = "";
 
         try {
-            Path path = Paths.get("./src/main/resources/keystore");
+            Path path = Paths.get("./src/main/resources/keystore.txt");
             token = new String(Files.readAllBytes(path));
-            jda = JDABuilder.createDefault(token)
+            jda = JDABuilder.createDefault(token, EnumSet.allOf(GatewayIntent.class))
                     .setActivity(Activity.watching("my elo drop"))
                     .addEventListeners(new Listener())
                     .build();
@@ -40,9 +44,7 @@ public class Driver extends ListenerAdapter {
         }
 
         Birthdays birthdays = new Birthdays(jda);
-        BirthdayUser user = birthdays.checkBirthdays();
-        if (user != null) {
-            jda.getTextChannelById("158082957645578240").sendMessage("Happy birthday " + user.getName() + "!").queue();
-        }
+        Timer dailyTimer = new Timer();
+        dailyTimer.scheduleAtFixedRate(new BirthdayTask(jda), 10000, 86400000);
     }
 }
