@@ -1,1 +1,1 @@
-worker: java $JAVA_OPTS -cp target/classes/ Driver
+worker: java -jar Jinseo_Bot.jar
