@@ -30,7 +30,7 @@ public class Driver extends ListenerAdapter {
     static JDA jda;
     public static void main(String[] args) throws LoginException, ParseException {
         String token = "";
-
+        System.out.println(System.getenv("CLASSPATH"));
         //Path path = Paths.get("./src/main/resources/keystore.txt");
         //token = new String(Files.readAllBytes(path));
         token = System.getenv("DISCORD_KEY");
