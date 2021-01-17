@@ -24,7 +24,7 @@ public class WeeklyTask extends TimerTask {
 
     @Override
     public void run() {
-        System.out.print("Weekly Timer task started");
+        System.out.println("Weekly Timer task started");
         try {
             Message message = channel.retrieveMessageById(channel.getLatestMessageId()).submit().get();
             OffsetDateTime offsetDateTime = date.toInstant().atOffset(message.getTimeCreated().getOffset());
@@ -45,10 +45,10 @@ public class WeeklyTask extends TimerTask {
             Message worstMessage = returnMostDownvoted(messageList);
             Message controversialMessage = returnMostReacted(messageList);
 
-            System.out.print("Weekly Timer task ended");
+            System.out.println("Weekly Timer task ended");
             channel.sendMessage("The top message of the past week is: " + topMessage.getJumpUrl() +
                     "\nThe worst message of the past week is: " + worstMessage.getJumpUrl() +
-                    "\nThe most controversial message of the past week is " + controversialMessage.getJumpUrl())
+                    "\nThe most reacted message of the past week is " + controversialMessage.getJumpUrl())
                     .queue();
 
         } catch (InterruptedException e) {

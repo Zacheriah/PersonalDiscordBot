@@ -127,8 +127,7 @@ public class Listener extends ListenerAdapter {
             }else if(message.getContentRaw().startsWith("!weekly")){
                 Timer weeklyTimer = new Timer();
                 weeklyTimer.scheduleAtFixedRate(new WeeklyTask(channel), 1000, 604800000);
-        }
-
+            }
 
 
         if (event.isFromType(ChannelType.PRIVATE))
