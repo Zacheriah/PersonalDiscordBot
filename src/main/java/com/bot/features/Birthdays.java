@@ -19,7 +19,7 @@ public class Birthdays {
     public Birthdays(JDA jda){
         this.jda = jda;
         birthdayList =
-        new EReader("C:\\Users\\Proba\\IdeaProjects\\Jinseo_Bot\\src\\main\\resources\\birthdays.xlsx", "Sheet1")
+        new EReader("src/main/resources/birthdays.xlsx", "Sheet1")
                 .listOf(BirthdayUser.class)
                 .binds(
                         new Bind("id", "A2"),
