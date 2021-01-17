@@ -1,1 +1,1 @@
-worker: mvn exec:java -Dexec.mainClass=com.bot.driver.Driver
+worker: java target/classes/com/bot/driver/Driver.class
