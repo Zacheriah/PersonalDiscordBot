@@ -1,1 +1,1 @@
-worker: java target/classes/com/bot/driver/Driver.class
+worker: java $JAVA_OPTS -cp target/classes:target/dependency/* com.bot.driver.Driver
