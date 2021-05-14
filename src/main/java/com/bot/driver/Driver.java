@@ -31,18 +31,21 @@ public class Driver extends ListenerAdapter {
     public static void main(String[] args) throws LoginException, ParseException {
         String token = "";
 
-        //Use these to run locally, uncomment and comment out line 38 to run remote
+        try {
+            Path path = Paths.get("./src/main/resources/keystore.txt");
+            token = new String(Files.readAllBytes(path));
+            //token = System.getenv("DISCORD_KEY");
+            jda = JDABuilder.createDefault(token, EnumSet.allOf(GatewayIntent.class))
+                    .setActivity(Activity.watching("my elo drop"))
+                    .addEventListeners(new Listener())
+                    .build();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        //Path path = Paths.get("./src/main/resources/keystore.txt");
-        //token = new String(Files.readAllBytes(path));
-        token = System.getenv("DISCORD_KEY");
-        jda = JDABuilder.createDefault(token, EnumSet.allOf(GatewayIntent.class))
-                .setActivity(Activity.watching("my elo drop"))
-                .addEventListeners(new Listener())
-                .build();
 
         Birthdays birthdays = new Birthdays(jda);
         Timer dailyTimer = new Timer();
-        dailyTimer.scheduleAtFixedRate(new BirthdayTask(jda), 10000, 86400000);
+        dailyTimer.scheduleAtFixedRate(new BirthdayTask(jda, birthdays.getBirthdayList()), 10000, 86400000);
     }
 }
